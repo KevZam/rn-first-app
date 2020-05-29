@@ -8,16 +8,20 @@ export default function App() {
   const [courseGoals, setCourseGoals] = useState([]);
 
 
-
   // we use a arrow function here to ensure we get the latest state of the currentGoals
   const addGoalHandler = goalTitle => {
     setCourseGoals(currentGoals => [...courseGoals, { key: Math.random().toString(), val: goalTitle }]);
   }
 
+  const deleteGoal = ItemKey => {
+    console.log(ItemKey)
+    setCourseGoals(courseGoals.filter(item => item.key !== ItemKey))
+  }
+
   return (
     <View style={styles.screen}>
       <GoalInput onAddGoal={addGoalHandler} />
-      <FlatList data={courseGoals} renderItem={itemData => <GoalItem title={itemData.item.val} />} />
+      <FlatList data={courseGoals} renderItem={itemData => <GoalItem itemKey={itemData.item.key} title={itemData.item.val} onDelete={deleteGoal} />} />
       {/* The key has to be added to the highest element you are rendering */}
     </View>
   );
